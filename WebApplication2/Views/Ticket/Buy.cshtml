@@ -1,0 +1,155 @@
+﻿@using System.Text.Json
+@{
+    ViewData["Title"] = "E-Bilet Al";
+
+    var dict = ViewBag.CityMuseums as Dictionary<string, List<string>>
+               ?? new Dictionary<string, List<string>>();
+
+    var selectedCity = ViewBag.SelectedCity as string ?? "";
+
+    // Şehir -> resim yolu  (SENİN KLASÖR: /images/cities/)
+    var cityImages = new Dictionary<string, string>
+    {
+        ["İstanbul"] = Url.Content("~/images/cities/istanbul.jpg"),
+        ["Ankara"] = Url.Content("~/images/cities/ankara.jpg"),
+        ["İzmir"] = Url.Content("~/images/cities/izmir.jpg"),
+        ["Antalya"] = Url.Content("~/images/cities/antalya.jpg"),
+        ["Çanakkale"] = Url.Content("~/images/cities/canakkale.jpg"),
+        ["Nevşehir"] = Url.Content("~/images/cities/nevsehir.jpg"),
+        ["Şanlıurfa"] = Url.Content("~/images/cities/sanliurfa.jpg"),
+        ["Bursa"] = Url.Content("~/images/cities/bursa.jpg"),
+        ["Trabzon"] = Url.Content("~/images/cities/trabzon.jpg"),
+        ["Gaziantep"] = Url.Content("~/images/cities/gaziantep.jpg"),
+
+        // ✅ Mardin eklendi (sende var)
+        ["Mardin"] = Url.Content("~/images/cities/mardin.jpg")
+    };
+
+    var json = JsonSerializer.Serialize(dict);
+}
+
+<div class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">E-Bilet Oluştur</div>
+</div>
+
+<div class="container">
+    <div class="form-card">
+
+        <h2>Şehir Seç (Resimden)</h2>
+
+        <div class="city-grid">
+            @foreach (var c in dict.Keys.OrderBy(x => x))
+            {
+                var img = cityImages.ContainsKey(c) ? cityImages[c] : Url.Content("~/images/cities/hero-bg.jpg");
+
+                <a class="city-card @(c == selectedCity ? "active" : "")"
+                   asp-controller="Ticket"
+                   asp-action="Buy"
+                   asp-route-city="@c"
+                   style="background-image:url('@img');">
+
+                    <div class="city-overlay"></div>
+                    <div class="city-title">@c</div>
+                </a>
+            }
+        </div>
+
+        <div class="selected-city-line">
+            <strong>Seçili Şehir:</strong> @(string.IsNullOrWhiteSpace(selectedCity) ? "—" : selectedCity)
+        </div>
+
+        <h2>Müze / Ören Yeri Bilet Satın Alma</h2>
+
+        <form asp-action="Buy" method="post">
+            <label>Ad Soyad</label>
+            <input type="text" name="fullName" required />
+
+            <!-- Şehir dropdown yok, resimden geldiği için hidden -->
+            <input type="hidden" id="cityHidden" name="city" value="@selectedCity" />
+
+            <label>Müze / Yer</label>
+            <select id="museumSelect" name="museum" required>
+                <option value="" selected disabled>Müze seçiniz</option>
+            </select>
+
+            <button type="submit">Bilet Oluştur</button>
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error">@ViewBag.Error</div>
+        }
+
+        @if (ViewBag.Success != null)
+        {
+            <div class="success">@ViewBag.Success</div>
+
+            <div class="ticket-wrapper">
+                <div class="ticket-card">
+                    <div class="ticket-info">
+                        <h3>E-Bilet</h3>
+                        <p><span>Ad Soyad</span><br />@ViewBag.FullName</p>
+                        <p><span>Şehir</span><br />@ViewBag.City</p>
+                        <p><span>Müze / Yer</span><br />@ViewBag.Museum</p>
+                        <p><span>Oluşturma</span><br />@ViewBag.CreatedDate</p>
+
+                        <div class="ticket-note">
+                            QR kod girişte okutularak doğrulanır.
+                        </div>
+                    </div>
+
+                    <div class="ticket-qr-area">
+                        <img src="@ViewBag.QrCodeImage" alt="QR" />
+                        <small>Girişte okutunuz</small>
+                    </div>
+                </div>
+
+                <div class="ticket-link">
+                    <p>QR Link (kopyalayıp QR doğrulamada yapıştırabilirsin):</p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                        <input id="qrLinkInput" value="@ViewBag.QrLink" readonly />
+                        <button type="button" onclick="copyQr()">Kopyala</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    const cityMuseums = @Html.Raw(json);
+
+    const museumSelect = document.getElementById("museumSelect");
+    const cityHidden = document.getElementById("cityHidden");
+
+    function fillMuseums(city) {
+        museumSelect.innerHTML = "";
+
+        const head = document.createElement("option");
+        head.value = "";
+        head.textContent = "Müze seçiniz";
+        head.disabled = true;
+        head.selected = true;
+        museumSelect.appendChild(head);
+
+        if (!city || !cityMuseums[city]) return;
+
+        cityMuseums[city].forEach(m => {
+            const opt = document.createElement("option");
+            opt.value = m;
+            opt.textContent = m;
+            museumSelect.appendChild(opt);
+        });
+    }
+
+    fillMuseums(cityHidden.value);
+
+    function copyQr() {
+        const input = document.getElementById("qrLinkInput");
+        input.select();
+        input.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(input.value);
+        alert("Link kopyalandı ✅");
+    }
+</script>

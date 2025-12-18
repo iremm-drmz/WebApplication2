@@ -1,0 +1,92 @@
+﻿@using WebApplication2.Models
+@{
+    ViewData["Title"] = "QR Doğrula";
+
+    bool? isValid = ViewBag.IsValid as bool?;
+    string msg = ViewBag.Message as string;
+
+    // ✅ güvenli cast
+    Ticket ticket = ViewBag.Ticket as Ticket;
+}
+
+<div class="hero-section" style="height:220px;">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">QR Doğrulama</div>
+</div>
+
+<div class="container">
+    <div class="form-card">
+
+        <h2>📷 Kamerayla Okut veya Link/QR Yapıştır</h2>
+
+        <div id="reader" style="width:320px; margin:18px auto;"></div>
+
+        <form method="post" style="max-width:700px;margin:0 auto;">
+            <label>QR Kod / Link</label>
+            <input type="text" id="qrCodeInput" name="qrCode" placeholder="QR kod veya link yapıştır" required />
+            <button type="submit">Kontrol Et</button>
+        </form>
+
+        @* ✅ Sonuç *@
+        @if (!string.IsNullOrWhiteSpace(msg))
+        {
+            if (isValid == true && ticket != null)
+            {
+                <div class="verify-card success-card">
+                    <div class="verify-icon">✓</div>
+                    <h3>Geçerli Bilet</h3>
+
+                    <p><b>@ticket.FullName</b></p>
+
+                    @* Senin modelinde City ve Place NotMapped var *@
+                    <p>@ticket.City — @ticket.Place</p>
+
+                    <p>@ticket.CreatedDate.ToString("dd.MM.yyyy HH:mm")</p>
+
+                    <div class="verify-note">Girişe izin verilebilir.</div>
+                </div>
+            }
+            else
+            {
+                <div class="verify-card error-card">
+                    <div class="verify-icon">✕</div>
+                    <h3>Geçersiz</h3>
+                    <p>@msg</p>
+
+                    @* Pasif bilette de bilgiyi göstermek istersen (ticket doluysa) *@
+                    @if (ticket != null)
+                    {
+                        <div class="verify-note" style="margin-top:12px;">
+                            <b>@ticket.FullName</b> — @ticket.City / @ticket.Place
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="verify-note">QR kodu/Linki kontrol edin.</div>
+                    }
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    function onScanSuccess(decodedText) {
+        // QR'dan gelen metni inputa yaz
+        document.getElementById("qrCodeInput").value = decodedText;
+
+        // formu otomatik gönder
+        document.forms[0].submit();
+    }
+
+    const scanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: 250 },
+        false
+    );
+
+    scanner.render(onScanSuccess);
+</script>
+

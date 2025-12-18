@@ -1,0 +1,571 @@
+﻿/* =========================
+   GENEL BODY
+   ========================= */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* =========================
+   ARKA PLAN HERO
+   ========================= */
+.hero-section {
+    background: url("/images/hero-bg.jpg") no-repeat center center / cover;
+    height: 400px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+}
+
+.hero-text {
+    position: relative;
+    text-align: center;
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    padding: 0 18px;
+}
+
+/* =========================
+   NAVBAR
+   ========================= */
+.top-menu {
+    background: #0f172a;
+    padding: 15px 40px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 16px;
+    flex-wrap: wrap;
+}
+
+.menu-btn {
+    color: #ff5fcf;
+    text-decoration: none;
+    padding: 10px 18px;
+    border: 2px solid #ff5fcf;
+    border-radius: 10px;
+    font-weight: 800;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+    .menu-btn:hover {
+        background: #ff5fcf;
+        color: #0f172a;
+    }
+
+/* =========================
+   CONTAINER / FORM CARD
+   ========================= */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.form-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    margin-top: -100px;
+    position: relative;
+}
+
+.admin-form-card {
+    margin-top: 35px !important;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #1f2937;
+    margin-top: 0;
+}
+
+/* =========================
+   FORM ALANLARI
+   ========================= */
+label {
+    font-weight: 800;
+}
+
+input, select {
+    font-size: 16px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #d1d5db;
+    outline: none;
+}
+
+    input:focus, select:focus {
+        border-color: #ff5fcf;
+        box-shadow: 0 0 0 3px rgba(255,95,207,0.18);
+    }
+
+button {
+    background: #0c4a6e;
+    color: #fff;
+    border: none;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
+    padding: 12px 18px;
+    border-radius: 12px;
+    width: auto;
+}
+
+    button:hover {
+        background: #1e40af;
+    }
+
+/* =========================
+   MESAJLAR
+   ========================= */
+.success {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 900;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 900;
+}
+
+/* =========================
+   ŞEHİR KARTLARI
+   ========================= */
+.city-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.city-card {
+    height: 115px;
+    border: none;
+    border-radius: 14px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    transition: transform .2s ease, outline .2s ease;
+    text-decoration: none;
+}
+
+    .city-card:hover {
+        transform: translateY(-2px);
+    }
+
+.city-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+}
+
+.city-title {
+    position: absolute;
+    left: 12px;
+    bottom: 10px;
+    color: #fff;
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: .2px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+/* mobil uyum */
+@media (max-width: 1100px) {
+    .city-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .city-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .top-menu {
+        padding: 14px 16px;
+    }
+
+    .hero-text {
+        font-size: 26px;
+    }
+}
+
+/* =========================
+   E-BİLET TASARIMI
+   ========================= */
+.ticket-wrapper {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ticket-card {
+    width: 100%;
+    max-width: 720px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-radius: 18px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+    position: relative;
+}
+
+    .ticket-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 200px;
+        width: 2px;
+        background: repeating-linear-gradient( to bottom, rgba(255,255,255,0.35), rgba(255,255,255,0.35) 6px, transparent 6px, transparent 12px );
+    }
+
+.ticket-info {
+    flex: 1;
+    padding: 30px;
+    color: #fff;
+}
+
+    .ticket-info h3 {
+        margin-top: 0;
+        margin-bottom: 18px;
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    .ticket-info p {
+        margin-bottom: 14px;
+        font-size: 15px;
+    }
+
+    .ticket-info span {
+        font-size: 12px;
+        text-transform: uppercase;
+        opacity: 0.7;
+        display: inline-block;
+        margin-bottom: 4px;
+    }
+
+.ticket-note {
+    margin-top: 18px;
+    padding: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.ticket-qr-area {
+    width: 200px;
+    background: #fff;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+    .ticket-qr-area img {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    .ticket-qr-area small {
+        font-size: 12px;
+        opacity: 0.7;
+    }
+
+.ticket-link {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 720px;
+}
+
+    .ticket-link p {
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .ticket-link input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        font-size: 13px;
+    }
+
+/* =========================
+   ADMIN TABLE
+   ========================= */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+    .admin-table thead {
+        background: rgba(255,255,255,0.10);
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 14px 12px;
+        text-align: left;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        vertical-align: middle;
+    }
+
+    .admin-table th {
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        opacity: 0.95;
+    }
+
+    .admin-table tbody tr:hover {
+        background: rgba(255,255,255,0.06);
+    }
+
+.qr-badge {
+    background: #0ea5e9;
+    color: #0b1220;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+/* =========================
+   ADMIN FILTERS + BUTONLAR
+   ========================= */
+.admin-filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 14px;
+    align-items: end;
+    margin: 18px 0 25px 0;
+}
+
+    .admin-filters input[type="text"],
+    .admin-filters select,
+    .admin-filters input[type="date"] {
+        background: rgba(255,255,255,0.96);
+        color: #111;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px;
+    }
+
+@media (max-width: 900px) {
+    .admin-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Durum badge */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    display: inline-block;
+}
+
+    .status-badge.active {
+        background: #22c55e;
+        color: #052e16;
+    }
+
+    .status-badge.canceled {
+        background: #ef4444;
+        color: #450a0a;
+    }
+
+.row-canceled {
+    opacity: 0.60;
+}
+
+/* Mini işlem butonları */
+.mini-btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 900;
+    width: auto !important;
+    margin-left: 8px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-cancel {
+    background: #f59e0b;
+    color: #111;
+}
+
+.btn-undo {
+    background: #22c55e;
+    color: #052e16;
+}
+
+.btn-delete {
+    background: #ef4444;
+    color: #fff;
+}
+
+.btn-edit {
+    background: #0ea5e9;
+    color: #fff;
+}
+
+    .btn-cancel:hover,
+    .btn-undo:hover,
+    .btn-delete:hover,
+    .btn-edit:hover {
+        filter: brightness(0.95);
+    }
+
+/* =========================
+   QR DOĞRULAMA SONUÇ KARTI
+   ========================= */
+.verify-card {
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+}
+
+    .verify-card h3 {
+        margin: 10px 0 20px 0;
+        font-size: 26px;
+    }
+
+    .verify-card p {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+.verify-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px auto;
+    border-radius: 50%;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+}
+
+.success-card {
+    background: linear-gradient(135deg, #052e16, #14532d);
+    color: #dcfce7;
+}
+
+    .success-card .verify-icon {
+        background: #22c55e;
+        color: #052e16;
+    }
+
+.error-card {
+    background: linear-gradient(135deg, #450a0a, #7f1d1d);
+    color: #fee2e2;
+}
+
+    .error-card .verify-icon {
+        background: #ef4444;
+        color: #450a0a;
+    }
+
+.verify-note {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    font-size: 14px;
+}
+.top-menu-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.page-content {
+    min-height: calc(100vh - 120px);
+}
+
+.site-footer {
+    margin-top: 40px;
+    padding: 18px 0;
+    background: rgba(0,0,0,0.08);
+}
+
+.site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    font-size: 13px;
+    opacity: 0.85;
+}
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+    .admin-actions button,
+    .admin-actions a {
+        height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }

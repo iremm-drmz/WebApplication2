@@ -1,0 +1,178 @@
+﻿@model List<WebApplication2.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Satılan Biletler";
+
+    var cities = ViewBag.Cities as List<string> ?? new List<string>();
+
+    var nameVal = ViewBag.Name as string ?? "";
+    var cityVal = ViewBag.City as string ?? "";
+
+    // artık from/to yerine tek range string kullanacağız
+    var rangeVal = ViewBag.Range as string ?? "";
+}
+
+<div class="hero-section" style="height:220px;">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">Admin Panel</div>
+</div>
+
+<div class="container">
+    <div class="form-card admin-form-card">
+
+        <h2>Satılan Biletler</h2>
+
+        <form method="get" class="admin-filters">
+            <div>
+                <label>Ad Soyad</label>
+                <input type="text" name="name" value="@nameVal" placeholder="İsim ara" />
+            </div>
+
+            <div>
+                <label>Şehir</label>
+                <select name="city">
+                    @if (string.IsNullOrEmpty(cityVal))
+                    {
+                        <option value="" selected>Hepsi</option>
+                    }
+                    else
+                    {
+                        <option value="">Hepsi</option>
+                    }
+
+                    @foreach (var c in cities)
+                    {
+                        if (cityVal == c)
+                        {
+                            <option value="@c" selected>@c</option>
+                        }
+                        else
+                        {
+                            <option value="@c">@c</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label>Tarih Aralığı</label>
+                <input type="text"
+                       id="dateRange"
+                       name="range"
+                       value="@rangeVal"
+                       placeholder="Başlangıç - Bitiş seç"
+                       autocomplete="off" />
+            </div>
+
+            <!-- ✅ Butonlar yamuk durmasın -->
+            <div class="admin-actions">
+                <button type="submit">Filtrele</button>
+                <a class="menu-btn admin-clear-btn" asp-action="Index">Temizle</a>
+            </div>
+        </form>
+
+        <div class="table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Durum</th>
+                        <th>Ad Soyad</th>
+                        <th>Şehir</th>
+                        <th>Müze</th>
+                        <th>Tarih</th>
+                        <th>QR</th>
+                        <th style="text-align:right;">İşlem</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="8" style="padding:20px; text-align:center;">
+                                Kayıt yok.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        foreach (var t in Model)
+                        {
+                            <tr class="@(t.IsActive ? "" : "row-canceled")">
+                                <td>@i</td>
+
+                                <td>
+                                    <span class="status-badge @(t.IsActive ? "active" : "canceled")">
+                                        @(t.IsActive ? "AKTİF" : "PASİF")
+                                    </span>
+                                </td>
+
+                                <td>@t.FullName</td>
+                                <td>@t.City</td>
+                                <td>@t.Place</td>
+                                <td>@t.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+
+                                <td>
+                                    <span class="qr-badge">
+                                        @{
+                                            var qr = t.QrCode ?? "";
+                                            if (qr.Length > 8)
+                                            {
+                                                @($"{qr.Substring(0, 8)}…")
+                                                ;
+                                            }
+                                            else if (qr.Length > 0)
+                                            {
+                                                @qr
+                                                ;
+                                            }
+                                            else
+                                            {
+                                                @("-")
+                                                ;
+                                            }
+                                        }
+                                    </span>
+                                </td>
+
+                                <td style="text-align:right; white-space:nowrap;">
+                                    <form asp-action="ToggleStatus" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@t.Id" />
+                                        <button class="mini-btn @(t.IsActive ? "btn-cancel" : "btn-undo")" type="submit">
+                                            @(t.IsActive ? "Pasif Yap" : "Aktif Et")
+                                        </button>
+                                    </form>
+
+                                    <a class="mini-btn btn-edit" asp-action="Edit" asp-route-id="@t.Id">Düzenle</a>
+
+                                    <form asp-action="Delete" method="post" style="display:inline;"
+                                          onsubmit="return confirm('Silmek istiyor musun?');">
+                                        <input type="hidden" name="id" value="@t.Id" />
+                                        <button class="mini-btn btn-delete" type="submit">Sil</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- ✅ tek takvim / tarih aralığı -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    flatpickr("#dateRange", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        allowInput: true
+    });
+</script>

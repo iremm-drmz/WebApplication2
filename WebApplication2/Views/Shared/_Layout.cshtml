@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@ViewData["Title"] - WebApplication2</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <nav class="top-menu">
+        <div class="top-menu-inner">
+            <a asp-controller="Ticket" asp-action="Buy" class="menu-btn">E-Bilet Al</a>
+            <a asp-controller="Qr" asp-action="Check" class="menu-btn">QR Doğrula</a>
+            <a asp-controller="Admin" asp-action="Index" class="menu-btn">Satılan Biletler</a>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer-inner">
+            <span>© @DateTime.Now.Year - WebApplication2</span>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

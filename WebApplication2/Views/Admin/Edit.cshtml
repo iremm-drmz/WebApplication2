@@ -1,0 +1,39 @@
+﻿@model WebApplication2.Models.Ticket
+@{
+    ViewData["Title"] = "Bilet Düzenle";
+    var dtLocal = Model.CreatedDate.ToString("yyyy-MM-ddTHH:mm");
+}
+
+<div class="hero-section" style="height:200px;">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">Bilet Düzenle</div>
+</div>
+
+<div class="container">
+    <div class="form-card" style="max-width:800px;margin: -80px auto 40px auto;">
+
+        <h2>ID: @Model.Id</h2>
+
+        <form method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <label>Ad Soyad</label>
+            <input type="text" name="fullName" value="@Model.FullName" required />
+
+            <label>Şehir</label>
+            <input type="text" name="city" value="@Model.City" required />
+
+            <label>Müze</label>
+            <input type="text" name="museum" value="@Model.Place" required />
+
+            <label>Tarih</label>
+            <input type="datetime-local" name="createdDate" value="@dtLocal" required />
+
+            <div style="display:flex;gap:12px;justify-content:center;margin-top:18px;flex-wrap:wrap;">
+                <button type="submit">Kaydet</button>
+                <a class="menu-btn" asp-action="Index">Geri</a>
+            </div>
+        </form>
+
+    </div>
+</div>

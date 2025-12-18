@@ -1,0 +1,37 @@
+﻿@model WebApplication2.Models.Ticket
+@{
+    ViewData["Title"] = "Bilet";
+}
+
+<div class="hero-section" style="height:220px;">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">E-Bilet</div>
+</div>
+
+<div class="container">
+    <div class="form-card">
+
+        <h2>Bilet Bilgileri</h2>
+
+        <div class="success">Bilet Geçerli</div>
+
+        <div class="ticket-wrapper" style="margin-top:10px;">
+            <div class="ticket-card">
+                <div class="ticket-info">
+                    <h3>E-Bilet</h3>
+                    <p><span>Ad Soyad</span><br />@Model.FullName</p>
+                    <p><span>Şehir</span><br />@Model.City</p>
+                    <p><span>Müze / Yer</span><br />@Model.Place</p>
+                    <p><span>Tarih</span><br />@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</p>
+                    <p><span>QR</span><br />@Model.QrCode</p>
+                </div>
+
+                <div class="ticket-qr-area">
+                    <div style="font-weight:900;">QR doğrulandı</div>
+                    <small>Bu sayfa QR ile açıldı</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
