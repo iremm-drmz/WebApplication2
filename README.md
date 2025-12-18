@@ -1,4 +1,4 @@
-# 🎟️ ASP.NET Core Müze E-Bilet Sistemi
+# 🎟️ Müze ve Ören Yeri Biletleme Sistemi
 
 Bu proje ASP.NET Core MVC kullanılarak geliştirilmiş bir **Müze / Ören Yeri E-Bilet Sistemi**dir.
 
